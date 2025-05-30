@@ -5,7 +5,7 @@ import { ForbiddenError, NotFoundError } from "../utils/error.js";
 export class AdminService {
   static async addAdmin(payload, currentUser) {
     if (currentUser.role !== "SuperAdmin") {
-      throw new ForbiddenError(403, "Faqat SuperAdmin qo‘shishi mumkin");
+      throw new ForbiddenError(403, "Faqat SuperAdmin qoshishi mumkin");
     }
 
     payload.password = sha256(payload.password);
@@ -14,6 +14,7 @@ export class AdminService {
     if (exists) throw new ForbiddenError(403, "Bunday admin allaqachon mavjud");
 
     return await adminModel.create(payload);
+    
   }
 
   static async getAdmins(currentUser) {

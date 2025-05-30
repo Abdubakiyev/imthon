@@ -16,17 +16,12 @@ export class UserService {
       throw new Error("Parol kiritilmadi");
     }
 
-    const hashedPassword = sha256(payload.password);
+    payload.password = sha256(payload.password);
 
-    const newUser = await userModel.create({
-      ...payload,
-      password: hashedPassword,
-    });
+    const newUser = await userModel.create(payload);
 
     dataToken.user_id = newUser._id;
-    dataToken.role = newUser.role;
-    dataToken.userIp = dataToken.userIp || null;
-    dataToken.userAgent = dataToken.userAgent || null;
+  
 
     return this.generateToken(dataToken);
   }
